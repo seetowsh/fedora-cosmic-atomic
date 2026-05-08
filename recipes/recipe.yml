@@ -14,12 +14,15 @@ modules:
       - source: system
         destination: /
 
+  # Handle the external repo URLs here 
+  - type: rpm-ostree
+    repos:
+      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
+      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
+
+  # Handle COPR and package installation here
   - type: dnf
     repos:
-      # These must be under 'add' if you are using 'dnf' module
-      add:
-        - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
-        - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
       copr:
         - atim/starship
     install:
