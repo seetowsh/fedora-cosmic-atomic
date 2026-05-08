@@ -14,15 +14,25 @@ modules:
       - source: system
         destination: /
 
-  - type: script
+- type: script
     snippets:
-      # 1. Install RPM Fusion repos
-      - dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+      # 1. Install RPM Fusion
+      - dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+      - dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+      
       # 2. Enable Starship COPR
-      - dnf5 copr enable -y atim/starship
-      # 3. Install packages (GParted added here)
-      - dnf install -y --allowerasing micro ffmpeg-libs libavcodec-freeworld mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld libva-utils starship gparted
-      # 4. Branding: Rename the OS for Fastfetch/System Info
+      - dnf copr enable -y atim/starship
+      
+      # 3. The "No-Compromise" Graphics Install
+      # We use 'mesa-va-drivers-freeworld' but we add 'mesa-vdpau-drivers' (standard) 
+      # and swap out the libs specifically.
+      - |
+        dnf install -y --allowerasing \
+        micro starship gparted bat eza btop iperf3 pciutils usbutils p7zip p7zip-plugins distrobox \
+        ffmpeg-libs libavcodec-freeworld libva-utils \
+        mesa-va-drivers-freeworld
+      
+      # 4. Branding
       - sed -i 's/^NAME=.*/NAME="See Tow OS"/' /usr/lib/os-release
       - sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="See Tow OS (COSMIC Atomic)"/' /usr/lib/os-release
 
