@@ -15,13 +15,13 @@ modules:
         destination: /
 
   - type: shell
-    commands:
-      # Install RPM Fusion repos directly via dnf
+    script:
+      # Install RPM Fusion repos
       - dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-      # Enable the Starship COPR
+      # Enable Starship COPR using dnf5 (pre-installed on Cosmic)
       - dnf5 copr enable -y atim/starship
-      # Install the packages
-      - dnf install -y micro ffmpeg-libs libavcodec-freeworld mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld libva-utils starship
+      # Install packages with --allowerasing to handle the Mesa driver swap
+      - dnf install -y --allowerasing micro ffmpeg-libs libavcodec-freeworld mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld libva-utils starship
 
   - type: default-flatpaks
     configurations:
