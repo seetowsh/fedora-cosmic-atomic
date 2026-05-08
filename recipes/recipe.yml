@@ -3,7 +3,7 @@ name: fedora-cosmic-atomic
 description: My personal OS image based on official Fedora COSMIC.
 
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
-image-version: 41 
+image-version: latest 
 
 platforms:
   - linux/amd64/v2
