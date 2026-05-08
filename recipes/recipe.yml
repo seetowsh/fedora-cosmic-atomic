@@ -2,13 +2,11 @@
 name: fedora-cosmic-atomic
 description: My personal OS image based on official Fedora COSMIC.
 
-# Points directly to the official Fedora source you trust
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
-image-version: 42 # Matches your current request for Fedora 42
+image-version: 42
 
-# Target architecture
 platforms:
-  - linux/amd64/v2 # BlueBuild current support level
+  - linux/amd64/v2
 
 modules:
   - type: files
@@ -16,25 +14,23 @@ modules:
       - source: system
         destination: /
 
-  # Using the dnf module for modern repo management
   - type: dnf
     repos:
-      # RPM Fusion for your codecs
-      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
-      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
+      # These must be under 'add' if you are using 'dnf' module
+      add:
+        - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
+        - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
       copr:
         - atim/starship
     install:
       packages:
         - micro
         - starship
-        - ffmpeg-libs           # Essential for Firefox video playback
-        - libavcodec-freeworld  # Standard fix for Fedora Firefox codecs
-        - mesa-va-drivers-freeworld  # VA-API for AMD
-        - mesa-vdpau-drivers-freeworld # Older API (optional but good for legacy)
-        - libva-utils               # Tools like 'vainfo' to verify everything works
-    # REMOVED: Firefox removal section. 
-    # Keeping the default RPM version allows it to use the layered codecs.
+        - ffmpeg-libs
+        - libavcodec-freeworld
+        - mesa-va-drivers-freeworld
+        - mesa-vdpau-drivers-freeworld
+        - libva-utils
 
   - type: default-flatpaks
     configurations:
@@ -44,4 +40,4 @@ modules:
           - org.gnome.Loupe
       - scope: user
 
-  - type: signing # Critical for your Secure Boot policy
+  - type: signing
