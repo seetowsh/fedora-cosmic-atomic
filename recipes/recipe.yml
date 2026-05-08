@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: fedora-cosmic-atomic
-description: CantabOS - Personal OS based on Fedora COSMIC.
+description: See Tow OS - Personal OS based on Fedora COSMIC Atomic.
 
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
 image-version: 44 
