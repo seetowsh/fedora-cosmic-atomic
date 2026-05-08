@@ -3,7 +3,7 @@ name: fedora-cosmic-atomic
 description: My personal OS image based on official Fedora COSMIC.
 
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
-image-version: 42
+image-version: latest # Changed to latest for better compatibility
 
 platforms:
   - linux/amd64/v2
@@ -14,26 +14,26 @@ modules:
       - source: system
         destination: /
 
-  # Handle the external repo URLs here 
   - type: rpm-ostree
     repos:
       - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
       - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
+    install:
+      - micro
+      - ffmpeg-libs
+      - libavcodec-freeworld
+      - mesa-va-drivers-freeworld
+      - mesa-vdpau-drivers-freeworld
+      - libva-utils
+    # Removing starship from here to handle COPR separately
 
-  # Handle COPR and package installation here
   - type: dnf
     repos:
       copr:
         - atim/starship
     install:
       packages:
-        - micro
         - starship
-        - ffmpeg-libs
-        - libavcodec-freeworld
-        - mesa-va-drivers-freeworld
-        - mesa-vdpau-drivers-freeworld
-        - libva-utils
 
   - type: default-flatpaks
     configurations:
