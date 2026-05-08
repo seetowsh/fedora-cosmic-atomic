@@ -2,7 +2,6 @@
 name: fedora-cosmic-atomic
 description: My personal OS image based on official Fedora COSMIC.
 
-# Using your original requested repo which we know was pulling successfully
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
 image-version: 41 
 
@@ -19,6 +18,8 @@ modules:
     repos:
       - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
       - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
+      # Manually adding the Starship COPR repo URL
+      - https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora-%OS_VERSION%/atim-starship-fedora-%OS_VERSION%.repo
     install:
       - micro
       - ffmpeg-libs
@@ -27,8 +28,6 @@ modules:
       - mesa-vdpau-drivers-freeworld
       - libva-utils
       - starship
-    opt-in-repos:
-      - copr:atim/starship
 
   - type: default-flatpaks
     configurations:
