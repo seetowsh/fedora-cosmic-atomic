@@ -1,45 +1,47 @@
----
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-# image will be published to ghcr.io/<user>/<name>
-name: template
-# description will be included in the image's metadata
-description: This is my personal OS image.
+name: fedora-cosmic-atomic
+description: My personal OS image based on official Fedora COSMIC.
 
-# the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
+# Points directly to the official Fedora source you trust
+base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
+image-version: 42 # Matches your current request for Fedora 42
 
-# module configuration, executed in order
-# you can include multiple instances of the same module
+# Target architecture
+platforms:
+  - linux/amd64/v2 # BlueBuild current support level
+
 modules:
   - type: files
     files:
       - source: system
-        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
+        destination: /
 
+  # Using the dnf module for modern repo management
   - type: dnf
     repos:
+      # RPM Fusion for your codecs
+      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-%OS_VERSION%.noarch.rpm
+      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-%OS_VERSION%.noarch.rpm
       copr:
         - atim/starship
     install:
       packages:
         - micro
         - starship
-    remove:
-      packages:
-        # example: removing firefox (in favor of the flatpak)
-        # "firefox" is the main package, "firefox-langpacks" is a dependency
-        - firefox
-        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+        - ffmpeg-libs           # Essential for Firefox video playback
+        - libavcodec-freeworld  # Standard fix for Fedora Firefox codecs
+        - mesa-va-drivers-freeworld  # VA-API for AMD
+        - mesa-vdpau-drivers-freeworld # Older API (optional but good for legacy)
+        - libva-utils               # Tools like 'vainfo' to verify everything works
+    # REMOVED: Firefox removal section. 
+    # Keeping the default RPM version allows it to use the layered codecs.
 
   - type: default-flatpaks
     configurations:
-      - notify: true # Send notification after install/uninstall is finished (true/false)
+      - notify: true
         scope: system
-        # If no repo information is specified, Flathub will be used by default
-        install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
+        install:
           - org.gnome.Loupe
-      - scope: user # Also add Flathub user repo, but no user packages
+      - scope: user
 
-  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+  - type: signing # Critical for your Secure Boot policy
