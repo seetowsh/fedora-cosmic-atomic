@@ -20,15 +20,15 @@ modules:
       - dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
       # 2. Enable Starship COPR
       - dnf5 copr enable -y atim/starship
-      # 3. Install packages with --allowerasing to swap the restricted Mesa drivers
-      - dnf install -y --allowerasing micro ffmpeg-libs libavcodec-freeworld mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld libva-utils starship
+      # 3. Install packages (GParted added here)
+      - dnf install -y --allowerasing micro ffmpeg-libs libavcodec-freeworld mesa-va-drivers-freeworld mesa-vdpau-drivers-freeworld libva-utils starship gparted
+      # 4. Branding: Rename the OS for Fastfetch/System Info
+      - sed -i 's/^NAME=.*/NAME="See Tow OS"/' /usr/lib/os-release
+      - sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="See Tow OS (COSMIC Atomic)"/' /usr/lib/os-release
 
   - type: default-flatpaks
     configurations:
-      - notify: true
-        scope: system
-        install:
-          - org.gnome.Loupe
       - scope: user
+        # org.gnome.Loupe has been removed from the system scope
 
   - type: signing
