@@ -2,8 +2,9 @@
 name: fedora-cosmic-atomic
 description: My personal OS image based on official Fedora COSMIC.
 
+# Using your original requested repo which we know was pulling successfully
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
-image-version: latest # Changed to latest for better compatibility
+image-version: 41 
 
 platforms:
   - linux/amd64/v2
@@ -25,15 +26,9 @@ modules:
       - mesa-va-drivers-freeworld
       - mesa-vdpau-drivers-freeworld
       - libva-utils
-    # Removing starship from here to handle COPR separately
-
-  - type: dnf
-    repos:
-      copr:
-        - atim/starship
-    install:
-      packages:
-        - starship
+      - starship
+    opt-in-repos:
+      - copr:atim/starship
 
   - type: default-flatpaks
     configurations:
