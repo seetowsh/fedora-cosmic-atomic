@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: fedora-cosmic-atomic
-description: My personal OS image based on official Fedora COSMIC.
+description: CantabOS - Personal OS based on Fedora COSMIC.
 
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
 image-version: 44 
@@ -14,7 +14,7 @@ modules:
       - source: system
         destination: /
 
-- type: script
+  - type: script
     snippets:
       # 1. Install RPM Fusion
       - dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
@@ -23,14 +23,9 @@ modules:
       # 2. Enable Starship COPR
       - dnf copr enable -y atim/starship
       
-      # 3. The "No-Compromise" Graphics Install
-      # We use 'mesa-va-drivers-freeworld' but we add 'mesa-vdpau-drivers' (standard) 
-      # and swap out the libs specifically.
-      - |
-        dnf install -y --allowerasing \
-        micro starship gparted bat eza btop iperf3 pciutils usbutils p7zip p7zip-plugins distrobox \
-        ffmpeg-libs libavcodec-freeworld libva-utils \
-        mesa-va-drivers-freeworld
+      # 3. Install Essentials + Hardware Accel
+      # We removed the non-existent mesa-vdpau-drivers-freeworld to fix the 'No match' error
+      - dnf install -y --allowerasing micro starship gparted bat eza btop iperf3 pciutils usbutils p7zip p7zip-plugins distrobox ffmpeg-libs libavcodec-freeworld libva-utils mesa-va-drivers-freeworld
       
       # 4. Branding
       - sed -i 's/^NAME=.*/NAME="See Tow OS"/' /usr/lib/os-release
@@ -39,6 +34,5 @@ modules:
   - type: default-flatpaks
     configurations:
       - scope: user
-        # org.gnome.Loupe has been removed from the system scope
 
   - type: signing
