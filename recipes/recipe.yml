@@ -25,7 +25,7 @@ modules:
       
       # 3. Install Essentials + Hardware Accel
       # We removed the non-existent mesa-vdpau-drivers-freeworld to fix the 'No match' error
-      - dnf install -y --allowerasing micro starship gparted bat eza btop iperf3 pciutils usbutils p7zip p7zip-plugins distrobox ffmpeg-libs libavcodec-freeworld libva-utils mesa-va-drivers-freeworld
+      - dnf install -y --allowerasing micro starship gparted bat eza btop iperf3 pciutils usbutils p7zip p7zip-plugins distrobox ffmpeg-libs libavcodec-freeworld libva-utils mesa-va-drivers-freeworld ddcutil libinput-gestures ydotool
       
       # 4. Branding
       - sed -i 's/^NAME=.*/NAME="See Tow OS"/' /usr/lib/os-release
