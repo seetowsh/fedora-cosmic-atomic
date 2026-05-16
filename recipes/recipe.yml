@@ -25,7 +25,7 @@ modules:
       - dnf copr enable -y elxreno/libinput-gestures
       
       # 3. Install Essentials + Hardware Accel + Hardware Controls
-      - dnf install -y --allowerasing micro starship gparted bat eza btop iperf3 distrobox ffmpeg-libs libavcodec-freeworld libva-utils mesa-va-drivers-freeworld ddcutil ydotool libinput-gestures  
+      - dnf install -y --allowerasing micro starship gparted bat eza btop iperf3 distrobox ffmpeg-libs libavcodec-freeworld libva-utils mesa-va-drivers-freeworld ddcutil ydotool libinput-gestures openssl ibus-pinyin libpinyin  
       
       # 4. Branding
       - sed -i 's/^NAME=.*/NAME="See Tow OS"/' /usr/lib/os-release
