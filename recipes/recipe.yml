@@ -20,12 +20,12 @@ modules:
       - dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
       - dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
       
-      # 2. Enable Starship COPR
+      # 2. Enable Starship & Gestures COPR
       - dnf copr enable -y atim/starship
+      - dnf copr enable -y elxreno/libinput-gestures
       
-      # 3. Install Essentials + Hardware Accel
-      # We removed the non-existent mesa-vdpau-drivers-freeworld to fix the 'No match' error
-      - dnf install -y --allowerasing micro starship gparted bat eza btop iperf3 distrobox ffmpeg-libs libavcodec-freeworld libva-utils mesa-va-drivers-freeworld ddcutil ydotool      
+      # 3. Install Essentials + Hardware Accel + Hardware Controls
+      - dnf install -y --allowerasing micro starship gparted bat eza btop iperf3 distrobox ffmpeg-libs libavcodec-freeworld libva-utils mesa-va-drivers-freeworld ddcutil ydotool libinput-gestures  
       
       # 4. Branding
       - sed -i 's/^NAME=.*/NAME="See Tow OS"/' /usr/lib/os-release
